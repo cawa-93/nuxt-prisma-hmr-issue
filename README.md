@@ -1,42 +1,15 @@
-# Nuxt 3 Minimal Starter
+# Nuxt 3 + Prisma HRM Issue reproduction
 
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
+## Steps
 
-## Setup
-
-Make sure to install the dependencies:
-
-```bash
-# yarn
-yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install --shamefully-hoist
-```
-
-## Development Server
-
-Start the development server on http://localhost:3000
-
-```bash
-npm run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment) for more information.
+1. Install dependencies
+    ```
+   npm ci
+   ```
+2. In `.env` set up `DATABASE_URL` to postgres db
+3. `npm run db:migrate`
+4. `npm run db:generate:client`
+5. Run server in dev mode by `npm run dev`
+6. Open `/api/users`. You should see JSON response with empty array and `prisma:query` logs in console.
+7. Make any change in `server/api/users.ts` to trigger HMR
+8. Open `/api/users`. Expected: JSON response with empty array. Actual: server stack or crash.
